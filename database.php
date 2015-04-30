@@ -1,9 +1,9 @@
 <?php
 	class Database{
 	
-		private static $dbName = 'yii2buoy';
+		private static $dbName = 'buoy';
 		private static $dbHost = 'localhost';
-		private static $dbUsername = 'root';
+		private static $dbUsername = 'yii2buoy';
 		private static $dbPassword = 'pw';
 		
 		private static $cont = null;
