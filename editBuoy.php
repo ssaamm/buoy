@@ -1,12 +1,19 @@
 <? 
-include('config.php'); 
+include('database.php'); 
 if (isset($_GET['latitude']) && isset($_GET['longitude']) ) { 
 $latitude = (int) $_GET['latitude']; 
 $longitude = (int) $_GET['longitude']; 
 if (isset($_POST['submitted'])) { 
 foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
-$sql = "UPDATE `buoy` SET  `name` =  '{$_POST['name']}' ,  `latitude` =  '{$_POST['latitude']}' ,  `longitude` =  '{$_POST['longitude']}' ,  `elevation` =  '{$_POST['elevation']}' ,  `depth` =  '{$_POST['depth']}'   WHERE `latitude` = '$latitude'  AND `longitude` = '$longitude' "; 
-mysql_query($sql) or die(mysql_error()); 
+$sql = "UPDATE `buoy` SET  `name` =  ? ,  `latitude` =  ? ,  `longitude` =  ? ,  `elevation` =  ? ,  `depth` =  ?   WHERE `latitude` = ?  AND `longitude` = ? "; 
+
+$q = $pdo->prepare($sql);
+try {
+	$q->execute(array($_POST['name'],$_POST['latitude'],$_POST['longitude'],$_POST['elevation'],$_POST['depth'],$latitude,$longitude));
+}catch (PDOException $e){
+	die($e->getMessage());
+}
+Database::disconnect();
 echo (mysql_affected_rows()) ? "Edited row.<br />" : "Nothing changed. <br />"; 
 echo "<a href='listBuoy.php'>Back To Listing</a>"; 
 } 
