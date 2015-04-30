@@ -1,4 +1,3 @@
-{% set active_page = 'default' %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -21,6 +20,7 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    {% block head_extra %}{% endblock %}
   </head>
 
   <body>
@@ -50,23 +50,23 @@
               <ul class="sidebar-menu" id="nav-accordion">
               
                   <li class="mt">
-                      <a class="active" href="index.html">
+                      <a {% if active_page == "index" %}class="active"{% endif %} href="index.php">
                           <i class="fa fa-dashboard"></i>
-                          <span {% if active_page == "index" %}class="active"{% endif %}>Dashboard</span>
+                          <span>Dashboard</span>
                       </a>
                   </li>
 
                   <li class="mt">
-                      <a href="userQuery.php">
+                      <a {% if active_page == "query" %}class="active"{% endif %} href="userQuery.php">
                           <i class="fa fa-th"></i>
-                          <span {% if active_page == "query" %}class="active"{% endif %}>Find readings</span>
+                          <span>Find readings</span>
                       </a>
                   </li>
 
                   <li class="mt">
-                      <a href="userAggregate.php">
+                      <a {% if active_page == "aggregate" %}class="active"{% endif %} href="userAggregate.php">
                           <i class="fa fa-bar-chart-o"></i>
-                          <span {% if active_page == "aggregate" %}class="active"{% endif %}>Reports</span>
+                          <span>Reports</span>
                       </a>
                   </li>
 
@@ -126,5 +126,6 @@
 
   </script>
 
+  {% block body_extra %}{% endblock %}
   </body>
 </html>

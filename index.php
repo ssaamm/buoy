@@ -1,5 +1,5 @@
 <?
 require_once 'twig.php';
 
-echo $twig->render('message.html', ['message' => '<h1>test</h1>']);
+echo $twig->render('message.html', ['message' => '<insert dashboard here>']);
 ?>
