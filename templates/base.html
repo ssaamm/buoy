@@ -1,13 +1,11 @@
+{% set active_page = 'default' %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="Dashboard">
-    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 
-    <title>Buoy</title>
+    <title>{% block title %}{% endblock %}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.css" rel="stylesheet">
@@ -54,21 +52,21 @@
                   <li class="mt">
                       <a class="active" href="index.html">
                           <i class="fa fa-dashboard"></i>
-                          <span class="active">Dashboard</span>
+                          <span {% if active_page == "index" %}class="active"{% endif %}>Dashboard</span>
                       </a>
                   </li>
 
                   <li class="mt">
                       <a href="userQuery.php">
                           <i class="fa fa-th"></i>
-                          <span>Find readings</span>
+                          <span {% if active_page == "query" %}class="active"{% endif %}>Find readings</span>
                       </a>
                   </li>
 
                   <li class="mt">
                       <a href="userAggregate.php">
                           <i class="fa fa-bar-chart-o"></i>
-                          <span>Reports</span>
+                          <span {% if active_page == "aggregate" %}class="active"{% endif %}>Reports</span>
                       </a>
                   </li>
 
@@ -86,6 +84,8 @@
       <!--main content start-->
       <section id="main-content">
         <section class="wrapper site-min-height">
+        {% block content %}
+        {% endblock %}
 		</section><! --/wrapper -->
       </section><!-- /MAIN CONTENT -->
 
