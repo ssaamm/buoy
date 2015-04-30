@@ -1,4 +1,4 @@
-<? 
+<?php
 include('database.php'); 
 if (isset($_GET['latitude']) && isset($_GET['longitude']) ) { 
 $latitude = (int) $_GET['latitude']; 
@@ -13,11 +13,18 @@ try {
 }catch (PDOException $e){
 	die($e->getMessage());
 }
-Database::disconnect();
+
 echo (mysql_affected_rows()) ? "Edited row.<br />" : "Nothing changed. <br />"; 
 echo "<a href='listBuoy.php'>Back To Listing</a>"; 
 } 
-$row = mysql_fetch_array ( mysql_query("SELECT * FROM `buoy` WHERE `latitude` = '$latitude' AND `longitude` = '$longitude' ")); 
+$sql2 = "SELECT * FROM `buoy` WHERE `latitude` = ? AND `longitude` = ? ";
+$q = $pdo->prepare($sql2);
+try{
+	$row = $q->execute(array($latitude,$longitude));
+}catch(PDOException $e){
+	die($e->getMessage());
+}
+Database::disconnect();
 ?>
 
 <form action='' method='POST'> 

@@ -1,5 +1,5 @@
-<? 
-include('database.php'); 
+<?php
+include 'database.php'; 
 echo "<table border=1 >"; 
 echo "<tr>"; 
 echo "<td><b>Name</b></td>"; 

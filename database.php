@@ -3,8 +3,8 @@
 	
 		private static $dbName = 'buoy';
 		private static $dbHost = 'localhost';
-		private static $dbUsername = 'yii2buoy';
-		private static $dbPassword = 'pw';
+		private static $dbUsername = 'root';
+		private static $dbPassword = '';
 		
 		private static $cont = null;
 		
@@ -33,5 +33,4 @@
 			self::$cont = null;
 		}
 	}
-
 ?>

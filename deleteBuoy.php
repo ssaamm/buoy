@@ -1,4 +1,4 @@
-<? 
+<?php 
 include('database.php'); 
 $latitude = (int) $_GET['latitude']; 
 $longitude = (int) $_GET['longitude']; 
@@ -10,7 +10,7 @@ try{
 }catch(PDOException $e){
 	die($e->getMessage());
 }
-mysql_query("DELETE FROM `buoy` WHERE `latitude` = '$latitude' AND `longitude` = '$longitude' ") ; 
+Database::disconnect();
 echo (mysql_affected_rows()) ? "Row deleted.<br /> " : "Nothing deleted.<br /> "; 
 ?> 
 
