@@ -1,5 +1,19 @@
 <? 
 include('config.php'); 
+
+if (!empty($_GET['fmt']) && $_GET['fmt'] == 'json') {
+    $response = [];
+    $buoys = mysql_query("SELECT * FROM `buoy`");
+    if (!$buoys) { $response['error'] = mysql_error(); }
+    else {
+        while ($buoy = mysql_fetch_array($buoys)) {
+            $response['buoys'][] = $buoy;
+        }
+    }
+    echo json_encode($response);
+    exit;
+}
+
 echo "<table border=1 >"; 
 echo "<tr>"; 
 echo "<td><b>Name</b></td>"; 
