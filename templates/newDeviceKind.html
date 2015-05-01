@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% set active_page = "new-devicekind" %}
+
+{% block title %}Create a device kind{% endblock %}
+
+{% block content %}
+<div class="form-panel">
+{% if created != true %}
+<form action='' method='POST'> 
+<p><b>Dimension0 Name:</b><br /><input class='form-control' type='text' name='dimension0_name'/> 
+<p><b>Dimension1 Name:</b><br /><input class='form-control' type='text' name='dimension1_name'/> 
+<p><b>Device Name:</b><br /><input class='form-control' type='text' name='device_name'/> 
+<p><input class='btn btn-theme' type='submit' value='Add Row' /><input type='hidden' value='1' name='submitted' /> 
+</form> 
+{% else %}
+<p>Added row</p>
+<p><a href="listDeviceKind.php">Back to listing</a></p>
+
+{% endif %}
+</div>
+{% endblock %}
