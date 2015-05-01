@@ -1,7 +1,8 @@
 <?
 require_once 'twig.php';
-require_once('config.php');
+require_once 'database.php';
 
+$db = Database::connect();
 $buoyCount = $db->query('SELECT COUNT(*) AS buoy_count FROM `buoy`')->fetch()['buoy_count'];
 $deviceCount = $db->query('SELECT COUNT(*) AS deviceCount FROM `device`')->fetch()['deviceCount'];
 $readingCount = $db->query('SELECT COUNT(*) AS readingCount FROM `reading`')->fetch()['readingCount'];
@@ -79,6 +80,8 @@ $temps = [
     'lakeWhitney' => number_format($lakeWhitneyTemp['average'], 1),
     'brazosRiver' => number_format($brazosRiverTemp['average'], 1),
 ];
+
+Database::disconnect();
 
 echo $twig->render('dashboard.html', ['buoyCount' => $buoyCount, 'deviceCount' => $deviceCount, 'readingCount' => $readingCount, 'labels' => $labels, 'bars' => $bars, 'temps' => $temps]);
 ?>
