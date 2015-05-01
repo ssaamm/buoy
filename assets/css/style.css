@@ -1184,6 +1184,18 @@ PANELS CONFIGURATIONS
 	letter-spacing: 1px;
 }
 
+.weather.lake-waco {
+	background: url(../img/lake-waco.jpg) no-repeat center center;
+}
+
+.weather.lake-whitney {
+	background: url(../img/lake-whitney.jpg) no-repeat center center;
+}
+
+.weather.brazos-river {
+	background: url(../img/brazos-river.jpg) no-repeat center center;
+}
+
 /* Weather 2 */
 .weather-2 {
 	background: #e9f0f4;

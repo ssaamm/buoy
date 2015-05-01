@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% set active_page = "index" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+              <div class="row">
+                  <div class="col-lg-12">
+                  
+                  	<div class="row mtbox">
+                  		<div class="col-md-3 col-sm-3 col-md-offset-1 box0">
+                  			<div class="box1">
+					  			<span class="li_data"></span>
+					  			<h3>{{ buoyCount }} buoys</h3>
+                  			</div>
+                  		</div>
+                  		<div class="col-md-3 col-sm-3 box0">
+                  			<div class="box1">
+					  			<span class="li_settings"></span>
+					  			<h3>{{ deviceCount }} devices</h3>
+                  			</div>
+                  		</div>
+                  		<div class="col-md-3 col-sm-3 box0">
+                  			<div class="box1">
+					  			<span class="li_tag"></span>
+					  			<h3>{{ readingCount }} readings</h3>
+                  			</div>
+                  		</div>
+                  	
+                  	</div><!-- /row mt -->	
+                </div>
+                </div>
+                
+                <div class="row mt">
+						<!-- WEATHER PANEL -->
+                      	<div class="col-md-4 col-sm-4 mb">
+							<div class="weather lake-waco pn">
+								<i class="fa fa-cloud fa-4x"></i>
+                                <h2>{{ temps.lakeWaco }}º C</h2>
+								<h4>LAKE WACO</h4>
+							</div>
+						</div><!-- /col-md-4-->
+						
+						<!-- WEATHER PANEL -->
+                      	<div class="col-md-4 col-sm-4 mb">
+							<div class="weather brazos-river pn">
+								<i class="fa fa-cloud fa-4x"></i>
+                                <h2>{{ temps.brazosRiver }}º C</h2>
+								<h4>BRAZOS RIVER</h4>
+							</div>
+						</div><!-- /col-md-4-->
+						
+						<!-- WEATHER PANEL -->
+                      	<div class="col-md-4 col-sm-4 mb">
+							<div class="weather lake-whitney pn">
+								<i class="fa fa-cloud fa-4x"></i>
+                                <h2>{{ temps.lakeWhitney }}º C</h2>
+								<h4>LAKE WHITNEY</h4>
+							</div>
+						</div><!-- /col-md-4-->
+					</div>
+
+					<div class="row mt">
+                  <div class="col-md-offset-1 col-md-10">
+                      <!--CUSTOM CHART START -->
+                      <div class="border-head">
+                          <h3>NUM. DAILY READINGS</h3>
+                      </div>
+                      <div class="custom-bar-chart">
+                          <ul class="y-axis">
+                              {% for label in labels %}
+                              <li><span>{{ label }}</span></li>
+                              {% endfor %}
+                          </ul>
+                          {% for bar in bars %}
+                              <div class="bar">
+                              <div class="title">{{ bar.dayOfWeek }}</div>
+                              <div class="value tooltips" data-original-title="{{ bar.value }}" data-toggle="tooltip" data-placement="top">{{ bar.percentage }}%</div>
+                          </div>
+                          {% endfor %}
+                      </div>
+                      <!--custom chart end-->
+					</div><!-- /row -->	
+					
+                  </div><!-- /col-lg-9 END SECTION MIDDLE -->
+{% endblock %}
+
+{% block head_extra %}
+    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">
+{% endblock %}
