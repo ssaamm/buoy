@@ -10,6 +10,9 @@
  *   - latitude
  *   - longitude
  *
+ * - If dl is set to 1, it will prompt for download
+ * - If dl is set to 2, it will be a MATLAB export
+ *
  * If you don't get all the attributes to query by a certain criterion, that 
  * criterion will be ignored.
  *
@@ -89,6 +92,36 @@ try {
 
 Database::disconnect();
 
+if (isset($_GET['dl'])) {
+    if ($_GET['dl'] == 1) {
+        $fn = 'export.csv';
+        header('Content-Disposition: attachment; filename="' . $fn . '"');
+
+        $stdout = fopen('php://output', 'w');
+        fputcsv($stdout, ['Device ID', 'Time', 'Dimension0', 'Dimension1']);
+        foreach ($response['readings'] as $reading) {
+            fputcsv($stdout, $reading);
+        }
+        fflush($stdout);
+        fclose($stdout);
+    } elseif ($_GET['dl'] == 2) {
+        $fn = 'export.m';
+        header('Content-Disposition: attachment; filename="' . $fn . '"');
+        echo 'readings = [];' . PHP_EOL;
+        foreach ($response['readings'] as $reading) {
+            $matlabFmtReading = 'struct(';
+            $first = true;
+            foreach ($reading as $k => $v) {
+                if ($first) { $first = false; }
+                else { $matlabFmtReading .= ','; }
+                $matlabFmtReading .= "'$k'" . ',' . "'$v'";
+            }
+            $matlabFmtReading .= ')';
+            echo 'readings = [readings ' . $matlabFmtReading . '];' . PHP_EOL;
+        }
+    }
+    exit;
+}
 echo json_encode($response);
 
 ?>

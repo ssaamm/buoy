@@ -31,7 +31,16 @@
                             tr.append(td);
                         });
                         $results.append(tr);
+
                     });
+
+                    $(".export").remove();
+                    $qp = $("#tablepanel");
+                    var a = $("<a>", {"class": "export", "href": "query.php?dl=1&" + $.param(params)}).text("Export (CSV)");
+                    var b = $("<a>", {"class": "export", "href": "query.php?dl=2&" + $.param(params)}).text("Export (MATLAB)");
+                    $qp.append(a);
+                    $qp.append($("<br>"));
+                    $qp.append(b);
                 });
             }
         </script>
@@ -67,7 +76,7 @@
         </div>
 
         <div class="col-md-8">
-            <div class="form-panel">
+            <div class="form-panel" id="tablepanel">
                 <div id="no-more-tables">
                     <h4><i class="fa fa-angle-right"></i> Results</h4>
                     <table class="table table-bordered table-striped table-condensed cf">
