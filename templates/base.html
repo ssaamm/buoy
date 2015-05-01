@@ -56,14 +56,14 @@
                       </a>
                   </li>
 
-                  <li class="mt">
+                  <li>
                       <a {% if active_page == "query" %}class="active"{% endif %} href="userQuery.php">
                           <i class="fa fa-th"></i>
                           <span>Find readings</span>
                       </a>
                   </li>
 
-                  <li class="mt">
+                  <li>
                       <a {% if active_page == "aggregate" %}class="active"{% endif %} href="userAggregate.php">
                           <i class="fa fa-bar-chart-o"></i>
                           <span>Reports</span>
@@ -88,7 +88,59 @@
                       </ul>
                   </li>
 
+                  <li class="sub-menu">
+                  <a href="javascript:;" {% if active_page == 'new-buoy'
+                      or active_page == 'new-buoydevice'
+                      or active_page == 'new-device'
+                      or active_page == 'new-reading'
+                      or active_page == 'new-devicekind' %}class="active"{% endif %}>
+                          <i class="fa fa-plus-circle"></i>
+                          <span>Add data</span>
+                      </a>
+                      <ul class="sub">
+                          <li {% if active_page == "new-buoy" %}class="active"{% endif %}><a href="newBuoy.php">Buoy</a></li>
+                          <li {% if active_page == "new-buoydevice" %}class="active"{% endif %}><a  href="newBuoyDevice.php">Buoy Device</a></li>
+                          <li {% if active_page == "new-device" %}class="active"{% endif %}><a href="newDevice.php">Device</a></li>
+                          <li {% if active_page == "new-devicekind" %}class="active"{% endif %}><a href="newDeviceKind.php">Device Kind</a></li>
+                          <li {% if active_page == "new-reading" %}class="active"{% endif %}><a href="newReading.php">Reading</a></li>
+                      </ul>
+                  </li>
 
+                  <li class="sub-menu">
+                  <a href="javascript:;" {% if active_page == 'edit-buoy'
+                      or active_page == 'edit-buoydevice'
+                      or active_page == 'edit-device'
+                      or active_page == 'edit-reading'
+                      or active_page == 'edit-devicekind' %}class="active"{% endif %}>
+                          <i class="fa fa-pencil"></i>
+                          <span>Edit data</span>
+                      </a>
+                      <ul class="sub">
+                          <li {% if active_page == "edit-buoy" %}class="active"{% endif %}><a href="editBuoy.php">Buoy</a></li>
+                          <li {% if active_page == "edit-buoydevice" %}class="active"{% endif %}><a  href="editBuoyDevice.php">Buoy Device</a></li>
+                          <li {% if active_page == "edit-device" %}class="active"{% endif %}><a href="editDevice.php">Device</a></li>
+                          <li {% if active_page == "edit-devicekind" %}class="active"{% endif %}><a href="editDeviceKind.php">Device Kind</a></li>
+                          <li {% if active_page == "edit-reading" %}class="active"{% endif %}><a href="editReading.php">Reading</a></li>
+                      </ul>
+                  </li>
+
+                  <li class="sub-menu">
+                  <a href="javascript:;" {% if active_page == 'delete-buoy'
+                      or active_page == 'delete-buoydevice'
+                      or active_page == 'delete-device'
+                      or active_page == 'delete-reading'
+                      or active_page == 'delete-devicekind' %}class="active"{% endif %}>
+                          <i class="fa fa-eraser"></i>
+                          <span>Delete data</span>
+                      </a>
+                      <ul class="sub">
+                          <li {% if active_page == "delete-buoy" %}class="active"{% endif %}><a href="deleteBuoy.php">Buoy</a></li>
+                          <li {% if active_page == "delete-buoydevice" %}class="active"{% endif %}><a  href="deleteBuoyDevice.php">Buoy Device</a></li>
+                          <li {% if active_page == "delete-device" %}class="active"{% endif %}><a href="deleteDevice.php">Device</a></li>
+                          <li {% if active_page == "delete-devicekind" %}class="active"{% endif %}><a href="deleteDeviceKind.php">Device Kind</a></li>
+                          <li {% if active_page == "delete-reading" %}class="active"{% endif %}><a href="deleteReading.php">Reading</a></li>
+                      </ul>
+                  </li>
 
               </ul>
               <!-- sidebar menu end-->
@@ -102,6 +154,9 @@
       <!--main content start-->
       <section id="main-content">
         <section class="wrapper site-min-height">
+        {% if err %}
+        <div class="alert alert-danger mt">{{ err }}</div>
+        {% endif %}
         {% block content %}
         {% endblock %}
 		</section><! --/wrapper -->
