@@ -21,7 +21,7 @@
  *
  */
 
-require_once('config.php');
+require_once('database.php');
 
 function shouldQueryOnDeviceId() {
     return !empty($_GET['deviceId']);
@@ -64,7 +64,8 @@ if (shouldQueryOnTime()) {
     $query .= '`time` >= :start_time AND `time` <= :end_time';
 }
 
-$get_readings = $db->prepare($query);
+$pdo = Database::connect();
+$get_readings = $pdo->prepare($query);
 if (shouldQueryOnDeviceId()) {
     $get_readings->bindValue(':device_id', $_GET['deviceId']);
 }
@@ -85,6 +86,8 @@ try {
 } catch (PDOException $e) {
     $response = ['error' => true, 'message' => $e->getMessage()];
 }
+
+Database::disconnect();
 
 echo json_encode($response);
 
