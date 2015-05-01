@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% set active_page = "query" %}
+{% block head_extra %}
+        <script>
+            var nameToTitle = {
+                "device_id": "Device ID",
+                "time": "Time",
+                "dimension0": "Dimension0",
+                "dimension1": "Dimension1",
+            };
+            function makeQuery(e) {
+                var lat = $("#latlon option:selected").val().split(",")[0];
+                var lon = $("#latlon option:selected").val().split(",")[1];
+                var params = {
+                    "startTime": $("#startTime").val(),
+                    "endTime": $("#endTime").val(),
+                    "deviceId": $("#device").val(),
+                    "latitude": lat,
+                    "longitude": lon,
+                };
+
+                $.get("query.php", params, function(r) {
+                    $results = $("#results_body");
+                    $results.empty();
+                    r = $.parseJSON(r);
+                    $.each(r["readings"], function(ndx, result) {
+                        var tr = $("<tr>", {});
+                        $.each(result, function(name, value) {
+                            var td = $("<td>", {'data-title': nameToTitle[name]}).text(value);
+                            tr.append(td);
+                        });
+                        $results.append(tr);
+                    });
+                });
+            }
+        </script>
+{% endblock %}
+{% block content %}
+        <h1><i class="fa fa-angle-right"></i>Find readings</h1>
+        <div class="col-lg-4">
+            <div class="form-panel">
+            <form id="criteria">
+
+                <h4><i class="fa fa-angle-right"></i> Search by time range</h4>
+                <div class="form-group"><label class="control-label" for="startTime">Start time</label>
+                <input class="form-control" type="text" id="startTime" name="startTime"></div>
+
+                <div class="form-group"><label class="control-label" for="endTime">End time</label>
+                <input class="form-control" type="text" id="endTime" name="endTime"></div>
+
+                <h4><i class="fa fa-angle-right"></i> Search by device</h4>
+                <div class="form-group"><label class="control-label" for="device">Device ID</label>
+                <input class="form-control" type="text" id="device" name="device"></div>
+
+                <h4><i class="fa fa-angle-right"></i> Search by buoy</h4>
+                <select class="form-control" id="latlon">
+    <option value=",">Don't care</option>
+    {% for buoy in buoys %}
+        {% include "render_buoy_select.html" %}
+    {% endfor %}
+                </select>
+
+            </form>
+            <button class="btn btn-theme btn-block" onclick="makeQuery(event);">Submit query</button>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="form-panel">
+                <div id="no-more-tables">
+                    <h4><i class="fa fa-angle-right"></i> Results</h4>
+                    <table class="table table-bordered table-striped table-condensed cf">
+                        <thead class="cf">
+                            <th>Device ID</th>
+                            <th>Time</th>
+                            <th>Dimension0</th>
+                            <th>Dimension1</th>
+                        </thead>
+                        <tbody id="results_body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block body_extra %}
+        <link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.css"/>
+        <script src="js/jquery-2.1.3.min.js"></script>
+        <script src="js/jquery.datetimepicker.js"></script>
+        <script>
+            $("#startTime").datetimepicker();
+            $("#endTime").datetimepicker();
+        </script>
+{% endblock %}
