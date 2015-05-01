@@ -1,5 +1,9 @@
 <?php 
 include('database.php'); 
+require_once 'twig.php';
+
+$params = ['object' => 'Buoy'];
+
 $latitude = (int) $_GET['latitude']; 
 $longitude = (int) $_GET['longitude']; 
 $sql = "DELETE FROM `buoy` WHERE `latitude` = ? AND `longitude` = ? ";
@@ -8,9 +12,9 @@ $q = $pdo->prepare($sql);
 try{
 	$q -> execute(array($latitude, $longitude));
 }catch(PDOException $e){
-	die($e->getMessage());
+    $params['err'] = $e->getMessage();
 }
 Database::disconnect(); 
-?> 
 
-<a href='listBuoy.php'>Back To Listing</a>
+echo $twig->render('deleteObject.html', $params);
+?> 

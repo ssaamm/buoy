@@ -124,23 +124,6 @@
                       </ul>
                   </li>
 
-                  <li class="sub-menu">
-                  <a href="javascript:;" {% if active_page == 'delete-buoy'
-                      or active_page == 'delete-buoydevice'
-                      or active_page == 'delete-device'
-                      or active_page == 'delete-reading'
-                      or active_page == 'delete-devicekind' %}class="active"{% endif %}>
-                          <i class="fa fa-eraser"></i>
-                          <span>Delete data</span>
-                      </a>
-                      <ul class="sub">
-                          <li {% if active_page == "delete-buoy" %}class="active"{% endif %}><a href="deleteBuoy.php">Buoy</a></li>
-                          <li {% if active_page == "delete-buoydevice" %}class="active"{% endif %}><a  href="deleteBuoyDevice.php">Buoy Device</a></li>
-                          <li {% if active_page == "delete-device" %}class="active"{% endif %}><a href="deleteDevice.php">Device</a></li>
-                          <li {% if active_page == "delete-devicekind" %}class="active"{% endif %}><a href="deleteDeviceKind.php">Device Kind</a></li>
-                          <li {% if active_page == "delete-reading" %}class="active"{% endif %}><a href="deleteReading.php">Reading</a></li>
-                      </ul>
-                  </li>
 
               </ul>
               <!-- sidebar menu end-->

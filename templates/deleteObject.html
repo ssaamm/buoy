@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% set active_page = 'delete-' ~  object|lower %}
+
+{% block title %}Delete {{ object }}{% endblock %}
+
+{% block content %}
+<div class="row mt">
+<div class="col-md-12">
+<div class="content-panel">
+<a href='list{{ object }}.php'>Back To Listing</a>
+</div>
+</div>
+</div>
+{% endblock %}
