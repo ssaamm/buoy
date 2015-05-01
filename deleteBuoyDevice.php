@@ -14,7 +14,6 @@ try {
 }
 
 Database::disconnect();
-echo (mysql_affected_rows()) ? "Row deleted.<br /> " : "Nothing deleted.<br /> "; 
 ?> 
 
 <a href='listBuoyDevice.php'>Back To Listing</a>

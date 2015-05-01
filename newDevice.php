@@ -8,7 +8,7 @@ $q = $pdo->prepare($sql);
 try{
 	$q ->execute(array($_POST['device_type']));
 }catch (PDOException $e){
-		die($e->getMessage());
+	die($e->getMessage());
 }
 Database::disconnect();
 echo "Added row.<br />"; 

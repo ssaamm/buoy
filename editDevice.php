@@ -12,14 +12,14 @@ try {
 }catch(PDOException $e){
 	die($e->getMessage());
 }
-echo (mysql_affected_rows()) ? "Edited row.<br />" : "Nothing changed. <br />"; 
 echo "<a href='listDevice.php'>Back To Listing</a>"; 
 } 
 $sql2 = "SELECT * FROM `device` WHERE `id` = ? ";
 $q = $pdo->prepare($sql2);
 
 try{
-	$row = $q->execute(array($id));
+	$q->execute(array($id));
+	$row = $q->fetch();
 }catch(PDOException $e){
 	die($e->getMessage());
 }

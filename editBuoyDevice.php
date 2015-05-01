@@ -15,13 +15,13 @@ try {
 }catch(PDOException $e){
 	die($e->getMessage());
 }
-echo (mysql_affected_rows()) ? "Edited row.<br />" : "Nothing changed. <br />"; 
 echo "<a href='listBuoyDevice.php'>Back To Listing</a>"; 
 } 
 $sql2 = "SELECT * FROM `buoy_device` WHERE `latitude` = ? AND `longitude` = ?AND `device_id` = ?";
 $q = $pdo->prepare($sql2);
 try{
-	$row = $q->execute(array($latitude,$longitude,$device_id));
+	$q->execute(array($latitude,$longitude,$device_id));
+	$row = $q->fetch();
 }catch(PDOException $e){
 	die($e->getMessage());
 }

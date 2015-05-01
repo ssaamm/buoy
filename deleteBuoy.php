@@ -10,8 +10,7 @@ try{
 }catch(PDOException $e){
 	die($e->getMessage());
 }
-Database::disconnect();
-echo (mysql_affected_rows()) ? "Row deleted.<br /> " : "Nothing deleted.<br /> "; 
+Database::disconnect(); 
 ?> 
 
 <a href='listBuoy.php'>Back To Listing</a>

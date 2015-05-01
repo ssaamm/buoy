@@ -10,7 +10,7 @@ $q = $pdo->prepare($sql);
 try {
 	$q->execute(array($_POST['name'],$_POST['latitude'],$_POST['longitude'],$_POST['elevation'],$_POST['depth']));
 }catch(PDOException $e){
-	die($e)
+	die($e);
 }
 Database::disconnect();
 echo "Added row.<br />"; 

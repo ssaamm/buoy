@@ -10,12 +10,12 @@ $sql = "UPDATE `reading` SET  `device_id` =  ? ,  `time` = ?,  `dimension0` = ? 
 $pdo = Database::connect();
 $q = $pdo->prepare($sql);
 $q->execute(array($_POST['device_id'],$_POST['time'],$_POST['dimension0'],$_POST['dimension1'],$device_id,$time));
-echo (mysql_affected_rows()) ? "Edited row.<br />" : "Nothing changed. <br />"; 
 echo "<a href='listReading.php'>Back To Listing</a>"; 
 } 
 $sql2 = "SELECT * FROM `reading` WHERE `device_id` = $device_id AND `time` = $time"; 
 $q2 = $pdo->prepare($sql2);
-$row = $q2->execute(array($device_id,$time));
+$q2->execute(array($device_id,$time));
+$row = $q2->fetch();
 Database::disconnect();
 ?>
 
