@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% set active_page = 'list-device' %}
+
+{% block title %}List devices{% endblock %}
+
+{% block content %}
+<div class="row mt">
+<div class="col-md-12">
+<div class="content-panel">
+<table class="table table-bordered table-striped table-condensed cf">
+
+    <thead class="cf">
+        <tr>
+        <th>Device ID</th>
+        <th>Device Kind</th>
+        <th>Delete</th>
+        <th>Edit</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    {% for d in devices %}
+    <tr>
+        <td data-title="Device ID">{{ d.id }}</td>
+        <td data-title="Device Kind">{{ d.device_type }}</td>
+        <td data-title="Delete"><a href="deleteDevice.php?id={{ d.id }}">Delete</a></td>
+        <td data-title="Edit"><a href="editDevice.php?id={{ d.id }}">Edit</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+
+</table>
+</div>
+</div>
+</div>
+{% endblock %}

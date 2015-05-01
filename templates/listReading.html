@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% set active_page = 'list-reading' %}
+
+{% block title %}List readings{% endblock %}
+
+{% block content %}
+<div class="row mt">
+<div class="col-md-12">
+<div class="content-panel">
+<table class="table table-bordered table-striped table-condensed cf">
+
+    <thead class="cf">
+        <tr>
+        <th>Device ID</th>
+        <th>Time</th>
+        <th>Dim. 0</th>
+        <th>Dim. 1</th>
+        <th>Delete</th>
+        <th>Edit</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    {% for r in readings %}
+    <tr>
+        <td data-title="Device ID">{{ r.device_id }}</td>
+        <td data-title="Time">{{ r.time }}</td>
+        <td data-title="Dim. 0">{{ r.dimension0 }}</td>
+        <td data-title="Dim. 1">{{ r.dimension1 }}</td>
+        <td data-title="Delete"><a href="deleteReading.php?device_id={{ r.device_id }}&time={{ r.time }}">Delete</a></td>
+        <td data-title="Edit"><a href="editReading.php?device_id={{ r.device_id }}&time={{ r.time }}">Edit</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+
+</table>
+</div>
+</div>
+</div>
+{% endblock %}

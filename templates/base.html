@@ -70,6 +70,24 @@
                       </a>
                   </li>
 
+                  <li class="sub-menu">
+                  <a href="javascript:;" {% if active_page == "list-buoy"
+                      or active_page == 'list-buoydevice'
+                      or active_page == 'list-device'
+                      or active_page == 'list-reading'
+                      or active_page == 'list-devicekind' %}class="active"{% endif %}>
+                          <i class="fa fa-folder"></i>
+                          <span>View data</span>
+                      </a>
+                      <ul class="sub">
+                          <li {% if active_page == "list-buoy" %}class="active"{% endif %}><a href="listBuoy.php">Buoy</a></li>
+                          <li {% if active_page == "list-buoydevice" %}class="active"{% endif %}><a  href="listBuoyDevice.php">Buoy Device</a></li>
+                          <li {% if active_page == "list-device" %}class="active"{% endif %}><a href="listDevice.php">Device</a></li>
+                          <li {% if active_page == "list-devicekind" %}class="active"{% endif %}><a href="listDeviceKind.php">Device Kind</a></li>
+                          <li {% if active_page == "list-reading" %}class="active"{% endif %}><a href="listReading.php">Reading</a></li>
+                      </ul>
+                  </li>
+
 
 
               </ul>
