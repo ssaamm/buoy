@@ -31,7 +31,13 @@
                             tr.append(td);
                         });
                         $results.append(tr);
+
                     });
+
+                    $("#export").remove();
+                    $qp = $("#tablepanel");
+                    var a = $("<a>", {"id": "export", "href": "query.php?dl=1&" + $.param(params)}).text("Export (CSV)");
+                    $qp.append(a);
                 });
             }
         </script>
@@ -67,7 +73,7 @@
         </div>
 
         <div class="col-md-8">
-            <div class="form-panel">
+            <div class="form-panel" id="tablepanel">
                 <div id="no-more-tables">
                     <h4><i class="fa fa-angle-right"></i> Results</h4>
                     <table class="table table-bordered table-striped table-condensed cf">

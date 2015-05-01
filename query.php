@@ -10,6 +10,8 @@
  *   - latitude
  *   - longitude
  *
+ * - If dl is set, it will prompt for download
+ *
  * If you don't get all the attributes to query by a certain criterion, that 
  * criterion will be ignored.
  *
@@ -89,6 +91,19 @@ try {
 
 Database::disconnect();
 
+if (isset($_GET['dl'])) {
+    $fn = 'export.csv';
+    header('Content-Disposition: attachment; filename="' . $fn . '"');
+
+    $stdout = fopen('php://output', 'w');
+    fputcsv($stdout, ['Device ID', 'Time', 'Dimension0', 'Dimension1']);
+    foreach ($response['readings'] as $reading) {
+        fputcsv($stdout, $reading);
+    }
+    fflush($stdout);
+    fclose($stdout);
+    exit;
+}
 echo json_encode($response);
 
 ?>
