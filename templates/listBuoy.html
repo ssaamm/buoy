@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% set active_page = 'list-buoy' %}
+
+{% block title %}List buoys{% endblock %}
+
+{% block content %}
+<div class="row mt">
+<div class="col-md-12">
+<div class="content-panel">
+<table class="table table-bordered table-striped table-condensed cf">
+
+    <thead class="cf">
+        <tr>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Elevation</th>
+        <th>Depth</th>
+        <th>Name</th>
+        <th>Delete</th>
+        <th>Edit</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    {% for buoy in buoys %}
+    <tr>
+        <td data-title="Latitude">{{ buoy.latitude }}</td>
+        <td data-title="Longitude">{{ buoy.longitude }}</td>
+        <td data-title="Elevation">{{ buoy.elevation }}</td>
+        <td data-title="Depth">{{ buoy.depth }}</td>
+        <td data-title="Name">{{ buoy.name }}</td>
+        <td data-title="Delete"><a href="deleteBuoy.php?latitude={{ buoy.latitude }}&longitude={{ buoy.longitude }}">Delete</a></td>
+        <td data-title="Edit"><a href="editBuoy.php?latitude={{ buoy.latitude }}&longitude={{ buoy.longitude }}">Edit</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+
+</table>
+</div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% set active_page = 'list-buoydevice' %}
+
+{% block title %}List buoy device relations{% endblock %}
+
+{% block content %}
+<div class="row mt">
+<div class="col-md-12">
+<div class="content-panel">
+<table class="table table-bordered table-striped table-condensed cf">
+
+    <thead class="cf">
+        <tr>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Device ID</th>
+        <th>Delete</th>
+        <th>Edit</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    {% for bd in buoy_devices %}
+    <tr>
+        <td data-title="Latitude">{{ bd.latitude }}</td>
+        <td data-title="Longitude">{{ bd.longitude }}</td>
+        <td data-title="Device ID">{{ bd.device_id }}</td>
+        <td data-title="Delete"><a href="deleteBuoyDevice.php?latitude={{ bd.latitude }}&longitude={{ bd.longitude }}&device_id={{ bd.device_id }}">Delete</a></td>
+        <td data-title="Edit"><a href="editBuoyDevice.php?latitude={{ bd.latitude }}&longitude={{ bd.longitude }}&device_id={{ bd.device_id }}">Edit</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+
+</table>
+</div>
+</div>
+</div>
+{% endblock %}

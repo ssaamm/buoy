@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% set active_page = 'edit-device' %}
+
+{% block title %}Edit device{% endblock %}
+
+{% block content %}
+
+<div class="form-panel">
+<form action='' method='POST'> 
+{% if edited == true %}
+<h3>Row changed</h3>
+<a href="listDevice.php">Back to listing</a>
+{% else %}
+    {% if row != null %}
+<p><b>Device Type:</b><br /><input type='text' class='form-control' name='device_type' value='{{ row.device_type }}' /> 
+<p><input type='submit' class='btn btn-theme' value='Edit Row' /><input type='hidden' value='1' name='submitted' /> 
+    {% else %}
+<p><b>Device Type:</b><br /><input type='text' class='form-control' name='device_type' /> 
+<p><input type='submit' class='btn btn-theme' value='Edit Row' /><input type='hidden' value='1' name='submitted' /> 
+    {% endif %}
+{% endif %}
+</form> 
+</div>
+{% endblock %}

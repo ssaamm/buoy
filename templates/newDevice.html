@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% set active_page = "new-device" %}
+
+{% block title %}Create a device{% endblock %}
+
+{% block content %}
+<div class="form-panel">
+{% if created != true %}
+<form action='' method='POST'> 
+<p><b>Device Type:</b><br /><input class='form-control' type='text' name='device_type'/> 
+<p><input class='btn btn-theme' type='submit' value='Add Row' /><input type='hidden' value='1' name='submitted' /> 
+</form> 
+{% else %}
+<p>Added row</p>
+<p><a href="listDevice.php">Back to listing</a></p>
+
+{% endif %}
+</div>
+{% endblock %}

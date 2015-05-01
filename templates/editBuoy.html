@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% set active_page = 'edit-buoy' %}
+
+{% block title %}Edit buoy{% endblock %}
+
+{% block content %}
+
+<div class="form-panel">
+<form action='' method='POST'> 
+{% if edited == true %}
+<h3>Row changed</h3>
+<a href="listBuoy.php">Back to listing</a>
+{% else %}
+    {% if row != null %}
+    <p><b>Name:</b><br /><input class='form-control' type='text' name='name' value='{{ row.name }}'/> 
+<p><b>Latitude:</b><br /><input class='form-control' type='text' name='latitude' value='{{ row.latitude }}' /> 
+<p><b>Longitude:</b><br /><input class='form-control' type='text' name='longitude' value='{{ row.longitude }}' /> 
+<p><b>Elevation:</b><br /><input class='form-control' type='text' name='elevation' value='{{ row.elevation }}' /> 
+<p><b>Depth:</b><br /><input class='form-control' type='text' name='depth' value='{{ row.depth }}' /> 
+<p><input class='btn btn-theme' type='submit' value='Edit Row' /><input class='form-control' type='hidden' value='1' name='submitted' /> 
+    {% else %}
+<p><b>Name:</b><br /><input class='form-control' type='text' name='name' />
+<p><b>Latitude:</b><br /><input class='form-control' type='text' name='latitude' /> 
+<p><b>Longitude:</b><br /><input class='form-control' type='text' name='longitude' /> 
+<p><b>Elevation:</b><br /><input class='form-control' type='text' name='elevation' /> 
+<p><b>Depth:</b><br /><input class='form-control' type='text' name='depth' /> 
+<p><input class='btn btn-theme' type='submit' value='Edit Row' /><input class='form-control' type='hidden' value='1' name='submitted' /> 
+    {% endif %}
+{% endif %}
+</form> 
+</div>
+{% endblock %}
