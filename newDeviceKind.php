@@ -4,7 +4,7 @@ require_once 'twig.php';
 
 $created = false;
 if (isset($_POST['submitted'])) { 
-    $sql = "INSERT INTO `device_kind` ( `dimension0_name` ,  `dimension1_name` ,  `device_name`  ) VALUES(  '? , ? ,  ? ) "; 
+    $sql = "INSERT INTO `device_kind` ( `dimension0_name` ,  `dimension1_name` ,  `device_name`  ) VALUES(  ? , ? ,  ? ) "; 
     $pdo = Database::connect();
     $q = $pdo->prepare($sql);
     try {
