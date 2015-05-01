@@ -1,4 +1,4 @@
-<?
+<?php
 require_once 'twig.php';
 require_once 'database.php';
 
@@ -35,14 +35,21 @@ foreach ($bars as $bar) {
 $max = max($counts);
 $min = min($counts);
 
+if (count($counts) <= 0) {
+    $max = 10;
+    $min = 0;
+}
+
 $labels = [];
 for ($i = 5; $i >= 0; $i--) {
     $labels[] = number_format($min + (($max - $min) / 5) * $i, 2);
 }
 
-for ($i = 0; $i < count($bars); $i++) {
-    $bar = $bars[$i];
-    $bars[$i]['percentage'] = 100 * ($bar['value'] - $min) / ($max - $min);
+if (count($counts) > 0) {
+    for ($i = 0; $i < count($bars); $i++) {
+        $bar = $bars[$i];
+        $bars[$i]['percentage'] = 100 * ($bar['value'] - $min) / ($max - $min);
+    }
 }
 
 $lakeWacoTemp = $db->query('SELECT AVG(r.dimension0) AS average '.
