@@ -2,6 +2,12 @@
 {% set active_page = "query" %}
 {% block head_extra %}
         <script>
+            var nameToTitle = {
+                "device_id": "Device ID",
+                "time": "Time",
+                "dimension0": "Dimension0",
+                "dimension1": "Dimension1",
+            };
             function makeQuery(e) {
                 var lat = $("#latlon option:selected").val().split(",")[0];
                 var lon = $("#latlon option:selected").val().split(",")[1];
@@ -14,46 +20,67 @@
                 };
 
                 $.get("query.php", params, function(r) {
-                    $results = $("#results");
+                    $results = $("#results_body");
                     $results.empty();
                     r = $.parseJSON(r);
                     $.each(r["readings"], function(ndx, result) {
-                        var p = $("<p>", { class: "result" }).text(JSON.stringify(result));
-                        $results.append(p); });
-                    if (r["readings"].length == 0) {
-                        $results.append($("<p>", { class: "result" }).text("No results"));
-                    }
+                        var tr = $("<tr>", {});
+                        $.each(result, function(name, value) {
+                            var td = $("<td>", {'data-title': nameToTitle[name]}).text(value);
+                            tr.append(td);
+                        });
+                        $results.append(tr);
+                    });
                 });
             }
         </script>
 {% endblock %}
 {% block content %}
-        <h1>Find readings</h1>
-        <form id="criteria">
+        <h1><i class="fa fa-angle-right"></i>Find readings</h1>
+        <div class="col-lg-4">
+            <div class="form-panel">
+            <form id="criteria">
 
-            <h3>Search by time range</h3>
-            <p><label for="startTime">Start time</label><br>
-            <input type="text" id="startTime" name="startTime"></p>
+                <h4><i class="fa fa-angle-right"></i> Search by time range</h4>
+                <div class="form-group"><label class="control-label" for="startTime">Start time</label>
+                <input class="form-control" type="text" id="startTime" name="startTime"></div>
 
-            <p><label for="endTime">End time</label><br>
-            <input type="text" id="endTime" name="endTime"></p>
+                <div class="form-group"><label class="control-label" for="endTime">End time</label>
+                <input class="form-control" type="text" id="endTime" name="endTime"></div>
 
-            <h3>Search by device</h3>
-            <p><label for="device">Device ID</label><br>
-            <input type="text" id="device" name="device"></p>
+                <h4><i class="fa fa-angle-right"></i> Search by device</h4>
+                <div class="form-group"><label class="control-label" for="device">Device ID</label>
+                <input class="form-control" type="text" id="device" name="device"></div>
 
-            <h3>Search by buoy</h3>
-            <select id="latlon">
-<option value=",">Don't care</option>
-{% for buoy in buoys %}
-    {% include "render_buoy_select.html" %}
-{% endfor %}
-            </select>
+                <h4><i class="fa fa-angle-right"></i> Search by buoy</h4>
+                <select class="form-control" id="latlon">
+    <option value=",">Don't care</option>
+    {% for buoy in buoys %}
+        {% include "render_buoy_select.html" %}
+    {% endfor %}
+                </select>
 
-        </form>
-        <button onclick="makeQuery(event);">Submit query</button>
+            </form>
+            <button class="btn btn-theme btn-block" onclick="makeQuery(event);">Submit query</button>
+            </div>
+        </div>
 
-        <div id="results"></div>
+        <div class="col-lg-8">
+            <div class="form-panel">
+                <div id="no-more-tables">
+                    <h4><i class="fa fa-angle-right"></i> Results</h4>
+                    <table class="table table-bordered table-striped table-condensed cf">
+                        <thead class="cf">
+                            <th>Device ID</th>
+                            <th>Time</th>
+                            <th>Dimension0</th>
+                            <th>Dimension1</th>
+                        </thead>
+                        <tbody id="results_body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 {% endblock %}
 
 {% block body_extra %}
