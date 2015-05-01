@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% set active_page = 'edit-reading' %}
+
+{% block title %}Edit reading{% endblock %}
+
+{% block content %}
+
+<div class="form-panel">
+<form action='' method='POST'> 
+{% if edited == true %}
+<h3>Row changed</h3>
+<a href="listReading.php">Back to listing</a>
+{% else %}
+    {% if row != null %}
+<p><b>Device Id:</b><br />{{ row.device_id }} </p>
+<p><b>Time:</b><br />{{ row.time }} </p>
+<p><b>Dimension0:</b><br /><input type='text' class='form-control' name='dimension0' value='{{ row.dimension0 }}' /> </p>
+<p><b>Dimension1:</b><br /><input type='text' class='form-control' name='dimension1' value='{{ row.dimension1 }}' /> </p>
+<p><input class='btn btn-theme' type='submit' value='Edit Row' /><input class='form-control' type='hidden' value='1' name='submitted' /> </p>
+    {% else %}
+<p><b>Device Id:</b><br /><input type='text' class='form-control' name='device_id'  /> 
+<p><b>Time:</b><br /><input type='text' class='form-control' name='time'  /> 
+<p><b>Dimension0:</b><br /><input type='text' class='form-control' name='dimension0'  /> 
+<p><b>Dimension1:</b><br /><input type='text' class='form-control' name='dimension1'  /> 
+<p><input class='btn btn-theme' type='submit' value='Edit Row' /><input class='form-control' type='hidden' value='1' name='submitted' /> 
+    {% endif %}
+{% endif %}
+</form> 
+</div>
+{% endblock %}

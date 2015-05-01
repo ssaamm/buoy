@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% set active_page = 'edit-buoydevice' %}
+
+{% block title %}Edit buoy device{% endblock %}
+
+{% block content %}
+
+<div class="form-panel">
+<form action='' method='POST'> 
+{% if edited == true %}
+<h3>Row changed</h3>
+<a href="listBuoyDevice.php">Back to listing</a>
+{% else %}
+    {% if row != null %}
+<p><b>Latitude:</b><br /><input class='form-control' type='text' name='latitude' value='{{ row.latitude }}' /> 
+<p><b>Longitude:</b><br /><input class='form-control' type='text' name='longitude' value='{{ row.longitude }}' /> 
+<p><b>Device Id:</b><br /><input class='form-control' type='text' name='device_id' value='{{ row.device_id }}' /> 
+<p><input class='btn btn-theme' type='submit' value='Edit Row' /><input type='hidden' value='1' name='submitted' /> 
+    {% else %}
+<p><b>Latitude:</b><br /><input class='form-control' type='text' name='latitude' /> 
+<p><b>Longitude:</b><br /><input class='form-control' type='text' name='longitude' /> 
+<p><b>Device Id:</b><br /><input class='form-control' type='text' name='device_id' /> 
+<p><input class='btn btn-theme' type='submit' value='Edit Row' /><input type='hidden' value='1' name='submitted' /> 
+    {% endif %}
+{% endif %}
+</form> 
+</div>
+{% endblock %}
