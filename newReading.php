@@ -1,9 +1,13 @@
-<? 
-include('config.php'); 
+<?php
+include('database.php'); 
 if (isset($_POST['submitted'])) { 
 foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
-$sql = "INSERT INTO `reading` ( `device_id` ,  `time` ,  `dimension0` ,  `dimension1`  ) VALUES(  '{$_POST['device_id']}' ,  '{$_POST['time']}' ,  '{$_POST['dimension0']}' ,  '{$_POST['dimension1']}'  ) "; 
-mysql_query($sql) or die(mysql_error()); 
+$sql = "INSERT INTO `reading` ( `device_id` ,  `time` ,  `dimension0` ,  `dimension1`  ) VALUES(  ? , ? ,  ? ,  ?  ) "; 
+$pdo = Database::connect();
+$q = $pdo->prepare($sql);
+$q->execute(array($_POST['device_id'], $_POST['time'], $_POST['dimension0'], $_POST['dimension1']));
+
+Database::disconnect();
 echo "Added row.<br />"; 
 echo "<a href='listReading.php'>Back To Listing</a>"; 
 } 

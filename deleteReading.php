@@ -1,8 +1,16 @@
-<? 
-include('config.php'); 
+<?php
+include('database.php'); 
 $device_id = $_GET['device_id']; 
 $time = $_GET['time']; 
-mysql_query("DELETE FROM `reading` WHERE `device_id` = $device_id AND `time` = $time") ; 
+$sql = "DELETE FROM `reading` WHERE `device_id` = ? AND `time` = ?"; 
+$pdo = Database::connect();
+$q = $pdo->prepare($sql);
+try{
+	$q->execute(array($device_id,$time));
+}catch (PDOException $e){
+	die($e->getMessage());
+}
+Database::disconnect();
 echo (mysql_affected_rows()) ? "Row deleted.<br /> " : "Nothing deleted.<br /> "; 
 ?> 
 

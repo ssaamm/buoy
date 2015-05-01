@@ -1,15 +1,21 @@
-<? 
-include('config.php'); 
+<?php
+include('database.php'); 
 if (isset($_GET['id']) ) { 
 $id = (int) $_GET['id']; 
 if (isset($_POST['submitted'])) { 
 foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
-$sql = "UPDATE `device_kind` SET  `dimension0_name` =  '{$_POST['dimension0_name']}' ,  `dimension1_name` =  '{$_POST['dimension1_name']}' ,  `device_name` =  '{$_POST['device_name']}'   WHERE `id` = '$id' "; 
-mysql_query($sql) or die(mysql_error()); 
+$sql = "UPDATE `device_kind` SET  `dimension0_name` =  ? ,  `dimension1_name` =  ? ,  `device_name` = ? WHERE `id` = ?"; 
+$pdo = Database::connect();
+$q = $pdo->prepare($sql);
+$q->execute(array($_POST['dimension0_name'],$_POST['dimension1_name'],$_POST['device_name'],$id));
 echo (mysql_affected_rows()) ? "Edited row.<br />" : "Nothing changed. <br />"; 
 echo "<a href='listDeviceKind.php'>Back To Listing</a>"; 
 } 
-$row = mysql_fetch_array ( mysql_query("SELECT * FROM `device_kind` WHERE `id` = '$id' ")); 
+$sql2 = "SELECT * FROM `device_kind` WHERE `id` = ?"; 
+$q2 = $pdo->prepare($sql2);
+$row = $q2->execute(array($id));
+
+Database::disconnect();
 ?>
 
 <form action='' method='POST'> 
