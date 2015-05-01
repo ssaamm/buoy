@@ -1,5 +1,9 @@
 <?php
 include('database.php'); 
+require_once 'twig.php';
+
+$params = ['object' => 'Reading'];
+
 $device_id = $_GET['device_id']; 
 $time = $_GET['time']; 
 $sql = "DELETE FROM `reading` WHERE `device_id` = ? AND `time` = ?"; 
@@ -8,9 +12,9 @@ $q = $pdo->prepare($sql);
 try{
 	$q->execute(array($device_id,$time));
 }catch (PDOException $e){
-	die($e->getMessage());
+    $params['err'] = $e->getMessage();
 }
 Database::disconnect();
-?> 
 
-<a href='listReading.php'>Back To Listing</a>
+echo $twig->render('deleteObject.html', $params);
+?> 

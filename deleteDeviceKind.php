@@ -1,12 +1,20 @@
 <?php
 include('database.php'); 
+require_once 'twig.php';
+
+$params = ['object' => 'DeviceKind'];
+
 $id = (int) $_GET['id']; 
 $sql = "DELETE FROM `device_kind` WHERE `id` = ? "; 
 $pdo = Database::connect();
 $q = $pdo->prepare($sql);
-$q->execute(array($id));
+try {
+    $q->execute(array($id));
+} catch (PDOException $e) {
+    $params['err'] = $e->getMessage();
+}
 
 Database::disconnect();
-?> 
 
-<a href='listDeviceKind.php'>Back To Listing</a>
+echo $twig->render('deleteObject.html', $params);
+?> 
