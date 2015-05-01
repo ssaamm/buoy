@@ -1,9 +1,18 @@
-<? 
-include('config.php'); 
+<?php 
+include('database.php'); 
 if (isset($_POST['submitted'])) { 
+
 foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
-$sql = "INSERT INTO `buoy` ( `name` ,  `latitude` ,  `longitude` ,  `elevation` ,  `depth`  ) VALUES(  '{$_POST['name']}' ,  '{$_POST['latitude']}' ,  '{$_POST['longitude']}' ,  '{$_POST['elevation']}' ,  '{$_POST['depth']}'  ) "; 
-mysql_query($sql) or die(mysql_error()); 
+$sql = "INSERT INTO `buoy` ( `name` ,  `latitude` ,  `longitude` ,  `elevation` ,  `depth`  ) VALUES( ? , ? , ? , ? , ?  ) "; 
+
+$pdo = Database::connect();
+$q = $pdo->prepare($sql);
+try {
+	$q->execute(array($_POST['name'],$_POST['latitude'],$_POST['longitude'],$_POST['elevation'],$_POST['depth']));
+}catch(PDOException $e){
+	die($e);
+}
+Database::disconnect();
 echo "Added row.<br />"; 
 echo "<a href='listBuoy.php'>Back To Listing</a>"; 
 } 
