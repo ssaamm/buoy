@@ -1,15 +1,29 @@
-<? 
-include('config.php'); 
+<?php
+include('database.php');
 if (isset($_GET['id']) ) { 
 $id = (int) $_GET['id']; 
 if (isset($_POST['submitted'])) { 
 foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
-$sql = "UPDATE `device` SET  `device_type` =  '{$_POST['device_type']}'   WHERE `id` = '$id' "; 
-mysql_query($sql) or die(mysql_error()); 
-echo (mysql_affected_rows()) ? "Edited row.<br />" : "Nothing changed. <br />"; 
+$sql = "UPDATE `device` SET  `device_type` =  ? WHERE `id` = ?"; 
+$pdo = Database::connect();
+$q = $pdo->prepare($sql);
+try {
+	$q->execute(array($_POST['device_type'],$id);
+}catch(PDOException $e){
+	die($e->getMessage());
+}
 echo "<a href='listDevice.php'>Back To Listing</a>"; 
 } 
-$row = mysql_fetch_array ( mysql_query("SELECT * FROM `device` WHERE `id` = '$id' ")); 
+$sql2 = "SELECT * FROM `device` WHERE `id` = ? ";
+$q = $pdo->prepare($sql2);
+
+try{
+	$q->execute(array($id));
+	$row = $q->fetch();
+}catch(PDOException $e){
+	die($e->getMessage());
+}
+Database::disconnect();
 ?>
 
 <form action='' method='POST'> 

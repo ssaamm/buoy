@@ -1,9 +1,12 @@
-<? 
-include('config.php'); 
+<?php
+include('database.php'); 
 if (isset($_POST['submitted'])) { 
 foreach($_POST AS $key => $value) { $_POST[$key] = mysql_real_escape_string($value); } 
-$sql = "INSERT INTO `device_kind` ( `dimension0_name` ,  `dimension1_name` ,  `device_name`  ) VALUES(  '{$_POST['dimension0_name']}' ,  '{$_POST['dimension1_name']}' ,  '{$_POST['device_name']}'  ) "; 
-mysql_query($sql) or die(mysql_error()); 
+$sql = "INSERT INTO `device_kind` ( `dimension0_name` ,  `dimension1_name` ,  `device_name`  ) VALUES(  '? , ? ,  ? ) "; 
+$pdo = Database::connect();
+$q = $pdo->prepare($sql);
+$q->execute(array($_POST['dimension0_name'],$_POST['dimension1_name'],$_POST['device_name']));
+Database::disconnect();
 echo "Added row.<br />"; 
 echo "<a href='listDeviceKind.php'>Back To Listing</a>"; 
 } 
