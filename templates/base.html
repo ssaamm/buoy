@@ -80,11 +80,11 @@
                           <span>View data</span>
                       </a>
                       <ul class="sub">
+                          <li {% if active_page == "list-reading" %}class="active"{% endif %}><a href="listReading.php">Reading</a></li>
                           <li {% if active_page == "list-buoy" %}class="active"{% endif %}><a href="listBuoy.php">Buoy</a></li>
                           <li {% if active_page == "list-buoydevice" %}class="active"{% endif %}><a  href="listBuoyDevice.php">Buoy Device</a></li>
                           <li {% if active_page == "list-device" %}class="active"{% endif %}><a href="listDevice.php">Device</a></li>
                           <li {% if active_page == "list-devicekind" %}class="active"{% endif %}><a href="listDeviceKind.php">Device Kind</a></li>
-                          <li {% if active_page == "list-reading" %}class="active"{% endif %}><a href="listReading.php">Reading</a></li>
                       </ul>
                   </li>
 
@@ -98,11 +98,11 @@
                           <span>Add data</span>
                       </a>
                       <ul class="sub">
+                          <li {% if active_page == "new-reading" %}class="active"{% endif %}><a href="newReading.php">Reading</a></li>
                           <li {% if active_page == "new-buoy" %}class="active"{% endif %}><a href="newBuoy.php">Buoy</a></li>
                           <li {% if active_page == "new-buoydevice" %}class="active"{% endif %}><a  href="newBuoyDevice.php">Buoy Device</a></li>
                           <li {% if active_page == "new-device" %}class="active"{% endif %}><a href="newDevice.php">Device</a></li>
                           <li {% if active_page == "new-devicekind" %}class="active"{% endif %}><a href="newDeviceKind.php">Device Kind</a></li>
-                          <li {% if active_page == "new-reading" %}class="active"{% endif %}><a href="newReading.php">Reading</a></li>
                       </ul>
                   </li>
 
@@ -116,11 +116,11 @@
                           <span>Edit data</span>
                       </a>
                       <ul class="sub">
+                          <li {% if active_page == "edit-reading" %}class="active"{% endif %}><a href="editReading.php">Reading</a></li>
                           <li {% if active_page == "edit-buoy" %}class="active"{% endif %}><a href="editBuoy.php">Buoy</a></li>
                           <li {% if active_page == "edit-buoydevice" %}class="active"{% endif %}><a  href="editBuoyDevice.php">Buoy Device</a></li>
                           <li {% if active_page == "edit-device" %}class="active"{% endif %}><a href="editDevice.php">Device</a></li>
                           <li {% if active_page == "edit-devicekind" %}class="active"{% endif %}><a href="editDeviceKind.php">Device Kind</a></li>
-                          <li {% if active_page == "edit-reading" %}class="active"{% endif %}><a href="editReading.php">Reading</a></li>
                       </ul>
                   </li>
 
