@@ -3,15 +3,41 @@
 
 {% block title %}Create a reading{% endblock %}
 
+{% block head_extra %}
+<script>
+	var cTimeDiffMillis = 100;
+
+    function inputHandler(inputEvent) {
+        if (Date.now() - inputHandler.lastFired > cTimeDiffMillis) {
+            var userInput = inputEvent.target.value;
+            $.get("getDimensionNames.php", { 'deviceId': userInput },  function(r) {
+                var response = $.parseJSON(r);
+                $("#dim0").text(response['dimension0name']);
+                if (response['dimension1name'] != null) {
+                    $("#dim1wrapper").show();
+                    $("#dim1").text(response['dimension1name']);
+                } else {
+                    $("#dim1wrapper").hide();
+                }
+            });
+        }
+
+        inputHandler.lastFired = Date.now();
+    }
+
+    inputHandler.lastFired = Date.now();
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="form-panel">
 
 <form action='' method='POST'> 
-<p><b>Device Id:</b><br /><input class='form-control' type='text' name='device_id'/> 
-<p><b>Time:</b><br /><input class='form-control' type='text' name='time'/> 
-<p><b>Dimension0:</b><br /><input class='form-control' type='text' name='dimension0'/> 
-<p><b>Dimension1:</b><br /><input class='form-control' type='text' name='dimension1'/> 
-<p><input class='btn btn-theme' type='submit' value='Add Row' /><input type='hidden' value='1' name='submitted' /> 
+<p><b>Device Id:</b><br /><input class='form-control' type='text' name='device_id' oninput='inputHandler(event);'/> </p>
+<p><b>Time:</b><br /><input id='time' class='form-control' type='text' name='time'/> </p>
+<p><b><span id="dim0">Dimension0</span>:</b><br /><input class='form-control' type='text' name='dimension0'/> </p>
+<span id="dim1wrapper"><p><b><span id="dim1">Dimension1</span>:</b><br /><input class='form-control' type='text' name='dimension1'/> </p></span>
+<p><input class='btn btn-theme' type='submit' value='Add Row' /><input type='hidden' value='1' name='submitted' /> </p>
 </form> 
 {% if created %}
 <p>Added row</p>
@@ -19,4 +45,12 @@
 
 {% endif %}
 </div>
+{% endblock %}
+
+{% block body_extra %}
+        <link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.css"/>
+        <script src="js/jquery.datetimepicker.js"></script>
+        <script>
+            $("#time").datetimepicker();
+        </script>
 {% endblock %}
