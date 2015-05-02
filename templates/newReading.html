@@ -5,7 +5,6 @@
 
 {% block content %}
 <div class="form-panel">
-{% if created != true %}
 
 <form action='' method='POST'> 
 <p><b>Device Id:</b><br /><input class='form-control' type='text' name='device_id'/> 
@@ -14,7 +13,7 @@
 <p><b>Dimension1:</b><br /><input class='form-control' type='text' name='dimension1'/> 
 <p><input class='btn btn-theme' type='submit' value='Add Row' /><input type='hidden' value='1' name='submitted' /> 
 </form> 
-{% else %}
+{% if created %}
 <p>Added row</p>
 <p><a href="listReading.php">Back to listing</a></p>
 
