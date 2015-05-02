@@ -45,7 +45,7 @@ for ($i = 5; $i >= 0; $i--) {
     $labels[] = number_format($min + (($max - $min) / 5) * $i, 2);
 }
 
-if (count($counts) > 0) {
+if ($max - $min > 0) {
     for ($i = 0; $i < count($bars); $i++) {
         $bar = $bars[$i];
         $bars[$i]['percentage'] = 100 * ($bar['value'] - $min) / ($max - $min);
