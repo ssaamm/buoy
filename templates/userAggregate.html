@@ -151,7 +151,7 @@
                     $.each(r["readings"], function(ndx, result) {
                         if(!isVector && result['d1Avg'] != null){isVector = true;}
                         var index = result['month'];
-                        if(index.contains("-") && (period == "month" || period == "week")){
+                        if(period == "month" || period == "week"){
                             var base = null;
                             if(period == "month"){
                                 base = 29;
