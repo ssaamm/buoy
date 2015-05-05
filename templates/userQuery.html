@@ -39,7 +39,7 @@
                     var a = $("<a>", {"class": "export", "href": "query.php?dl=1&" + $.param(params)}).text("Export (CSV)");
                     var b = $("<a>", {"class": "export", "href": "query.php?dl=2&" + $.param(params)}).text("Export (MATLAB)");
                     $qp.append(a);
-                    $qp.append($("<br>"));
+                    $qp.append($("<br>", {"class": "export"}));
                     $qp.append(b);
                 });
             }
