@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% set active_page = "query" %}
+{% set active_page = "aggregate" %}
 {% block title %}Reports{% endblock %}
 {% block head_extra %}
-        <script src="js/chart.min.js"></script>
+        <script src="js/Chart.min.js"></script>
         <script>
             function arrayRotate(arr,reverse, count){
                 for(var i=0;i<count ;i++){  
@@ -113,7 +113,6 @@
                     labels : myLabels,
                     datasets : getDatasets(isVector,firstDataSet,secondDataSet,labelOffset)
                 }
-                console.log(lineChartData);
                 var canvas = document.getElementById("canvas");
                 var ctx = canvas.getContext("2d");
                 ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -139,7 +138,6 @@
                 };
                 var myLabels = getLabels(period);
                 var labelOffset = myLabels[1];
-                console.log("offset: "+labelOffset);
                 myLabels = myLabels[0];
                 var firstDataSet = new Array(myLabels.length);
                 var secondDataSet = new Array(myLabels.length);
@@ -158,7 +156,7 @@
                             if(period == "month"){
                                 base = 29;
                             }else{
-                                base = 6;
+                                base = 7;
                             }
 
                             var date1 = new Date(index);
