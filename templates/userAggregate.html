@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% set active_page = "query" %}
+{% block title %}Reports{% endblock %}
+{% block head_extra %}
+        <script src="js/chart.min.js"></script>
+        <script>
+            function arrayRotate(arr,reverse, count){
+                for(var i=0;i<count ;i++){  
+                    if(reverse)
+                        arr.push(arr.shift());
+                      else
+                        arr.unshift(arr.pop());
+                }
+                return arr;
+            } 
+            //Month is 1 based
+            function daysInMonth(month,year) {
+                return new Date(year, month, 0).getDate();
+            }
+
+            var nameToTitle = {
+                "device_id": "Device ID",
+                "time": "Time",
+                "dimension0": "Dimension0",
+                "dimension1": "Dimension1",
+            };
+            /*
+                returns pair [labelArray, shift from start of normal array]
+                so ie [[jun,jul,aug,sep,oct,nov,dec,jan,feb,mar,apr,may],4]
+            */
+            function getLabels(p){
+                var d = new Date();
+                var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+                var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+
+                if(p == "year"){
+                    return [arrayRotate(monthNames,false,11-d.getMonth()),11-d.getMonth()-1];
+                }
+                else if(p == "month"){
+                    var arr = [];
+                    var m = monthNames[d.getMonth()];
+                    var day = d.getDate();
+                    for(var i=1;i<=30;i++){
+                        arr.push(m+" " +day);
+                        arr = arrayRotate(arr,false,1);
+                        if(day > 1){
+                            day --;
+                        }
+                        else{
+                            day = daysInMonth(d.getMonth(),d.getFullYear());
+                            m = monthNames[d.getMonth()-1 % 12];
+                        }
+                    }
+                    return [arr,d.getDate()];
+                }
+                else{
+                    //assume week
+                    var arr = [];
+                    day = d.getDay();
+                    for(var i=1;i<=7;i++){
+                        arr.push(dayNames[day]);
+                        arr = arrayRotate(arr,false,1);
+                        day = day - 1 
+                        if (day < 0){
+                          day += 7;
+                        }
+                    }
+                    return [arr,0];
+                }
+            }
+            function undefinedToNull(arr){
+                $.each(arr, function(ndx,val){
+                    if(typeof(val) == 'undefined'){
+                        arr[ndx] = null;
+                    }
+                });
+            }
+            function getDatasets(isVector,d1,d2,rotation){
+                var data = [];
+                d1 = arrayRotate(d1,false,rotation);
+                d2 = arrayRotate(d2,false,rotation);
+                undefinedToNull(d1);
+                undefinedToNull(d2);
+                var firstSet = {    
+                    label: "My First dataset",
+                    fillColor : "rgba(220,220,220,0.2)",
+                    strokeColor : "rgba(220,220,220,1)",
+                    pointColor : "rgba(220,220,220,1)",
+                    pointStrokeColor : "#fff",
+                    pointHighlightFill : "#fff",
+                    pointHighlightStroke : "rgba(220,220,220,1)",
+                    data : d1
+                };
+                data.push(firstSet);
+                if(isVector){
+                    var secondSet = {
+                        label: "My Second dataset",
+                            fillColor : "rgba(151,187,205,0.2)",
+                            strokeColor : "rgba(151,187,205,1)",
+                            pointColor : "rgba(151,187,205,1)",
+                            pointStrokeColor : "#fff",
+                            pointHighlightFill : "#fff",
+                            pointHighlightStroke : "rgba(151,187,205,1)",
+                            data : d2
+                    }
+                    data.push(secondSet);
+                }
+                return data;
+            }
+            function drawChart(myLabels,isVector, firstDataSet,secondDataSet,labelOffset){
+                var lineChartData = {
+                    labels : myLabels,
+                    datasets : getDatasets(isVector,firstDataSet,secondDataSet,labelOffset)
+                }
+                console.log(lineChartData);
+                var canvas = document.getElementById("canvas");
+                var ctx = canvas.getContext("2d");
+                ctx.clearRect(0,0,canvas.width,canvas.height);
+                if(window.myLine != null){
+                    window.myLine.destroy();
+                }
+                window.myLine = new Chart(ctx).Line(lineChartData, {
+                    responsive: true
+                });
+            }
+            function makeQuery(e) {
+                var lat = $("#latlon option:selected").val().split(",")[0];
+                var lon = $("#latlon option:selected").val().split(",")[1];
+                var dev_type = $("#deviceType option:selected").val();
+                var dev_name = $("#deviceType option:selected").text();
+                var period = $("#period option:selected").val();
+                var params = {
+                    "period": period,
+                    "range": $("#range").val(),
+                    "device_name": dev_type,
+                    "latitude": lat,
+                    "longitude": lon,
+                };
+                var myLabels = getLabels(period);
+                var labelOffset = myLabels[1];
+                console.log("offset: "+labelOffset);
+                myLabels = myLabels[0];
+                var firstDataSet = new Array(myLabels.length);
+                var secondDataSet = new Array(myLabels.length);
+                var isVector = false;
+                //for later calculations
+                var date2 = new Date();
+                $.get("aggregate.php", params, function(r) {
+                    
+
+                    r = $.parseJSON(r);
+                    $.each(r["readings"], function(ndx, result) {
+                        if(!isVector && result['d1Avg'] != null){isVector = true;}
+                        var index = result['month'];
+                        if(index.contains("-") && (period == "month" || period == "week")){
+                            var base = null;
+                            if(period == "month"){
+                                base = 29;
+                            }else{
+                                base = 6;
+                            }
+
+                            var date1 = new Date(index);
+                            
+                            var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+                            var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24))-1; 
+                            //how many days ago was this entry
+                            labelOffset = 0;//dont rotate
+                            index = base-diffDays;
+                        }
+                        firstDataSet[index] =result['d0Avg'];
+                        secondDataSet[index] = result['d1Avg'];
+                    });
+
+                    drawChart(myLabels,isVector,firstDataSet,secondDataSet,labelOffset);
+                });
+                
+            }
+        </script>
+{% endblock %}
+{% block content %}
+        <h1><i class="fa fa-angle-right"></i>Reports</h1>
+        <div class="col-md-4">
+            <div class="form-panel">
+            <form id="criteria">
+
+                <h4><i class="fa fa-angle-right"></i> Select device type</h4>
+                <div class="form-group">
+                <select class="form-control" type="text" id="deviceType" name="deviceType">
+                    {% for device_kind in device_kinds %}
+                        {% include "render_device_kind_select.html" %}
+                    {% endfor %}
+                </select></div>
+
+                <h4><i class="fa fa-angle-right"></i> Select time period</h4>
+                <div class="form-group">
+                <select class="form-control" type="text" id="period" name="period">
+                    <option value="year">Year</option>
+                    <option value="month">Month</option>
+                    <option value="week">Week</option>
+                </select></div>
+
+                <h4><i class="fa fa-angle-right"></i> Select central buoy</h4>
+                <select class="form-control" id="latlon">
+    
+                {% for buoy in buoys %}
+                    {% include "render_buoy_select.html" %}
+                {% endfor %}
+                </select>
+
+                 <h4><i class="fa fa-angle-right"></i> Radius from buoy to consider</h4>
+                <div class="form-group"><label class="control-label" for="device">Distance in miles</label>
+                <input class="form-control" type="text" id="range" name="range"></div>
+
+            </form>
+            <button class="btn btn-theme btn-block mt" onclick="makeQuery(event);">Submit query</button>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="form-panel">
+                <div id="no-more-tables">
+                    <h4><i class="fa fa-angle-right"></i> Results</h4>
+                    <canvas id="canvas" height="150" width="350"></canvas>
+                </div>
+            </div>
+        </div>
+{% endblock %}
